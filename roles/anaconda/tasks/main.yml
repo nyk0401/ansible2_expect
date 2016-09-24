@@ -10,7 +10,7 @@
 - name: install python-pip
   apt: name=python-pip state=installed
 
-- name: install pexpect by anaconda's pip
+- name: install pexpect by anaconda pip
   pip: name=pexpect
 
 - name: install anaconda3
