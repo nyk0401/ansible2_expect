@@ -1,0 +1,29 @@
+---
+- name: Download Anaconda3 installer
+  get_url: 
+    url: "https://repo.continuum.io/archive/{{ anaconda_script }}"
+    dest: "/home/{{ target_user }}"
+  become: true
+  become_method: su
+  become_user: "{{ target_user }}"
+
+- name: install python-pip
+  apt: name=python-pip state=installed
+
+- name: install pexpect by anaconda's pip
+  pip: name=pexpect
+
+- name: install anaconda3
+  expect:
+    chdir: "/home/{{ target_user }}"
+    command: "bash {{ anaconda_script }}"
+    timeout: 360
+    responses:
+      '>>>': '\n'
+      ':': ' '
+      '>>>': 'yes'
+      '>>>': '\n'
+      '>>>': 'yes'
+  become: true
+  become_method: su
+  become_user: "{{ target_user }}"
